@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct SwiftuiSocialMediaProjectApp: App {
+ 
+    @AppStorage("log_status") var logStatus: Bool = false
+   
+//    var logStatus: Bool = UserDefaults.automaticallyNotifiesObservers(forKey: "log_status")
+    init(){
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if logStatus{
+                MainView()
+            }else{
+                LoginPage()
+            }
+           
         }
     }
 }
