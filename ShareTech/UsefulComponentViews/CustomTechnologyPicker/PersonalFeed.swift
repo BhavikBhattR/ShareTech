@@ -17,17 +17,17 @@ struct PersonalFeed: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack{
+            LazyVStack(alignment: .leading){
                 if vmOfPersonalFeed.isFetching{
                     ProgressView()
                         .padding(.top, 30)
                 }else{
                     if vmOfPersonalFeed.recentPostsOfOwn.isEmpty{
                         // no posts found on firestore
-                        Text("No posts found")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .padding(.top, 30)
+//                        Text("No posts found")
+//                            .font(.caption)
+//                            .foregroundColor(.gray)
+//                            .padding(.top, 30)
                     }else{
                         posts()
                     }
@@ -58,7 +58,7 @@ struct PersonalFeed: View {
     @ViewBuilder
     func posts() -> some View{
         ForEach(vmOfPersonalFeed.recentPostsOfOwn){post in
-            PostCardView(post: post) { updatedPost in
+            PersonalCardView(post: post) { updatedPost in
                 if let index = vmOfPersonalFeed.recentPostsOfOwn.firstIndex(where: { post in
                     post.id == updatedPost.id
                 }){

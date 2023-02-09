@@ -26,6 +26,7 @@
 		A9574607299043C5000F4292 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9574606299043C5000F4292 /* UserDefaults.swift */; };
 		A957460E29906BE6000F4292 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A957460D29906BE6000F4292 /* MainView.swift */; };
 		A965B3C629901DCE00794C86 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A965B3C529901DCE00794C86 /* User.swift */; };
+		A9726A4429952DC900A26ABC /* PersonalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9726A4329952DC900A26ABC /* PersonalCardView.swift */; };
 		A9E5E52F298EDE5E0065F434 /* SwiftuiSocialMediaProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E5E52E298EDE5E0065F434 /* SwiftuiSocialMediaProjectApp.swift */; };
 		A9E5E531298EDE5E0065F434 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E5E530298EDE5E0065F434 /* ContentView.swift */; };
 		A9E5E536298EDE600065F434 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9E5E535298EDE600065F434 /* Preview Assets.xcassets */; };
@@ -58,6 +59,7 @@
 		A9574606299043C5000F4292 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		A957460D29906BE6000F4292 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		A965B3C529901DCE00794C86 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A9726A4329952DC900A26ABC /* PersonalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalCardView.swift; sourceTree = "<group>"; };
 		A9E5E52B298EDE5E0065F434 /* ShareTech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareTech.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9E5E52E298EDE5E0065F434 /* SwiftuiSocialMediaProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftuiSocialMediaProjectApp.swift; path = ShareTech/SwiftuiSocialMediaProjectApp.swift; sourceTree = "<group>"; };
 		A9E5E530298EDE5E0065F434 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ShareTech/ContentView.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				A9E82C552992EEDE00617DCF /* TechnologyPicker.swift */,
 				A9E82C572993001C00617DCF /* TechnologyPickerViewModel.swift */,
 				A9FA30652993EB95009C3B8F /* PersonalFeed.swift */,
+				A9726A4329952DC900A26ABC /* PersonalCardView.swift */,
 			);
 			path = CustomTechnologyPicker;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				A924385829916A210087B108 /* PostFeedView.swift in Sources */,
 				A924385C2991A3EF0087B108 /* SearchUserView.swift in Sources */,
 				A9FA30662993EB95009C3B8F /* PersonalFeed.swift in Sources */,
+				A9726A4429952DC900A26ABC /* PersonalCardView.swift in Sources */,
 				A9E5E547298EE50B0065F434 /* View.swift in Sources */,
 				A9E5E531298EDE5E0065F434 /* ContentView.swift in Sources */,
 				A924385A299174360087B108 /* PostCardView.swift in Sources */,

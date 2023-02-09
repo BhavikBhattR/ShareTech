@@ -65,6 +65,7 @@ class PersonalFeedModel: ObservableObject{
                 let docs = try await query.getDocuments()
                 let fetchedPosts = docs.documents.compactMap { doc -> Post? in
                     try? doc.data(as: Post.self)
+                    
                 }
                 await MainActor.run(body: {
                     recentPostsOfOwn.append(contentsOf: fetchedPosts)

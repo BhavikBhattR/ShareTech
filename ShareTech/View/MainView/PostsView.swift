@@ -55,7 +55,7 @@ struct PostsView: View {
                                 .tint(.black)
                                 .scaleEffect(0.9)
                         }
-
+                        
                     }
                     
                     
@@ -73,11 +73,11 @@ struct PostsView: View {
                 })
                 .navigationTitle("Posts")
         }
-            .fullScreenCover(isPresented: $createNewPost) {
-                CreateNewPost { post in
-                    vmOfPostFeed.recentPosts.insert(post, at: 0)
-                }
+        .fullScreenCover(isPresented: $createNewPost) {
+            CreateNewPost { post in
+                vmOfPostFeed.recentPosts.insert(post, at: 0)
             }
+        }
     }
         
 }

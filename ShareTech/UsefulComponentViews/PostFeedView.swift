@@ -10,87 +10,113 @@ import Firebase
 import FirebaseAuth
 
 struct PostFeedView: View {
-//    var basedOnUID: Bool = false
-//    var uid: String = ""
-//    @Binding var recentPosts: [Post]
-//    @State private var isFetching: Bool = true
-//    @EnvironmentObject var vm: TechnologyPickerViewModel
-//
-//    //pagination
-//    @State private var paginationDocument: QueryDocumentSnapshot?
+    //    var basedOnUID: Bool = false
+    //    var uid: String = ""
+    //    @Binding var recentPosts: [Post]
+    //    @State private var isFetching: Bool = true
+    //    @EnvironmentObject var vm: TechnologyPickerViewModel
+    //
+    //    //pagination
+    //    @State private var paginationDocument: QueryDocumentSnapshot?
     @EnvironmentObject var vmOfPostFeed: PostFeedViewModel
     @EnvironmentObject var vm: TechnologyPickerViewModel
+   
     
-
     @AppStorage("user_uid") var userID: String = ""
-
+    
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack{
-                if vmOfPostFeed.isFetching{
-                    ProgressView()
-                        .padding(.top, 30)
+        GeometryReader{ proxy in
+            if vmOfPostFeed.isFetching{
+                ProgressView()
+                    .padding(.top, 30)
+                    .hAligned(alignment: .center)
+                    .vAligned(alignment: .center)
+            }else{
+                if vmOfPostFeed.recentPosts.isEmpty{
+                    // no posts found on firestore
+//                    Text("No posts found")
+//                        .font(.caption)
+//                        .foregroundColor(.gray)
+//                        .padding(.top, 30)
                 }else{
-                    if vmOfPostFeed.recentPosts.isEmpty{
-                        // no posts found on firestore
-                        Text("No posts found")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .padding(.top, 30)
-                    }else{
-                        posts()
+                    ForEach(vmOfPostFeed.recentPosts.reversed()){post in
+                        PostCardView(post: post) { updatedPost in
+                            if let index = vmOfPostFeed.recentPosts.firstIndex(where: { post in
+                                post.id == updatedPost.id
+                            }){
+                                vmOfPostFeed.recentPosts[index].likeIDs = updatedPost.likeIDs
+                                vmOfPostFeed.recentPosts[index].dislikedIDs = updatedPost.dislikedIDs
+                            }
+                        } onDelete: {
+                            withAnimation(.easeInOut(duration: 0.25)){
+                                vmOfPostFeed.recentPosts.removeAll{post.id == $0.id}
+                            }
+                        }
+                        /* below mentioned on appear is code responsible for pagination*/
+                        .onAppear{
+                            if post.id == vmOfPostFeed.recentPosts.last?.id && vmOfPostFeed.paginationDocument != nil{
+                                Task{
+                                    await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+                                }
+                            }
+                        }
+                        
+                        /* padding given on horizontal is -15 coz on LazyVstack, we have given padding of 15*/
+                        Divider()
+                            .padding(.horizontal, -15)
+                        
                     }
                 }
             }
-            .padding(15)
-        }
-        .refreshable {
-            guard !vmOfPostFeed.basedOnUID else { return }
-            vmOfPostFeed.isFetching = true
-            vmOfPostFeed.recentPosts = []
-            /* paginationDoc must set to nil as if it is not set to nil, whatever next 20 post of there are after paginationDoc will be fetched. There are no issues as such but here when user refreshes we set recentPosts to blank array, so if pagination doc is not nil then before pagination doc whatever docs are, their data won't be in recentPosts array*/
-            vmOfPostFeed.paginationDocument = nil
-            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
-     
-            
+            //        .refreshable {
+            //            guard !vmOfPostFeed.basedOnUID else { return }
+            //            vmOfPostFeed.isFetching = true
+            //            vmOfPostFeed.recentPosts = []
+            //            /* paginationDoc must set to nil as if it is not set to nil, whatever next 20 post of there are after paginationDoc will be fetched. There are no issues as such but here when user refreshes we set recentPosts to blank array, so if pagination doc is not nil then before pagination doc whatever docs are, their data won't be in recentPosts array*/
+            //            vmOfPostFeed.paginationDocument = nil
+            //            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+            //
+            //
+            //        }
         }
         .task {
             guard vmOfPostFeed.recentPosts.isEmpty else { return }
             await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
-      
-        }
-    }
-    @ViewBuilder
-    func posts() -> some View{
-        ForEach(vmOfPostFeed.recentPosts){post in
-            PostCardView(post: post) { updatedPost in
-                if let index = vmOfPostFeed.recentPosts.firstIndex(where: { post in
-                    post.id == updatedPost.id
-                }){
-                    vmOfPostFeed.recentPosts[index].likeIDs = updatedPost.likeIDs
-                    vmOfPostFeed.recentPosts[index].dislikedIDs = updatedPost.dislikedIDs
-                }
-            } onDelete: {
-                withAnimation(.easeInOut(duration: 0.25)){
-                    vmOfPostFeed.recentPosts.removeAll{post.id == $0.id}
-                }
-            }
-            /* below mentioned on appear is code responsible for pagination*/
-            .onAppear{
-                if post.id == vmOfPostFeed.recentPosts.last?.id && vmOfPostFeed.paginationDocument != nil{
-                    Task{
-                        await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
-                    }
-                }
-            }
             
-            /* padding given on horizontal is -15 coz on LazyVstack, we have given padding of 15*/
-            Divider()
-                .padding(.horizontal, -15)
-
         }
-    }
+       
+}
+//    @ViewBuilder
+//    func posts() -> some View{
+//        ForEach(vmOfPostFeed.recentPosts){post in
+//            PostCardView(post: post) { updatedPost in
+//                if let index = vmOfPostFeed.recentPosts.firstIndex(where: { post in
+//                    post.id == updatedPost.id
+//                }){
+//                    vmOfPostFeed.recentPosts[index].likeIDs = updatedPost.likeIDs
+//                    vmOfPostFeed.recentPosts[index].dislikedIDs = updatedPost.dislikedIDs
+//                }
+//            } onDelete: {
+//                withAnimation(.easeInOut(duration: 0.25)){
+//                    vmOfPostFeed.recentPosts.removeAll{post.id == $0.id}
+//                }
+//            }
+//            /* below mentioned on appear is code responsible for pagination*/
+//            .onAppear{
+//                if post.id == vmOfPostFeed.recentPosts.last?.id && vmOfPostFeed.paginationDocument != nil{
+//                    Task{
+//                        await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+//                    }
+//                }
+//            }
+//
+//            /* padding given on horizontal is -15 coz on LazyVstack, we have given padding of 15*/
+//            Divider()
+//                .padding(.horizontal, -15)
+//
+//        }
+//    }
     
     /*
      vm.selecttedTechnologies (will get this data from environment),

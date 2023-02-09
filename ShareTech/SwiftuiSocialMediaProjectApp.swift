@@ -29,9 +29,12 @@ struct SwiftuiSocialMediaProjectApp: App {
                     .environmentObject(vm)
                     .environmentObject(vmOfPostFeed)
                     .environmentObject(vmOfPersonalFeed)
+                    .preferredColorScheme(.light)
             }else{
                 LoginPage()
+                    .preferredColorScheme(.light)
             }
+                
            
         }
     }
