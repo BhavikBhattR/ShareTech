@@ -107,22 +107,23 @@
 			isa = PBXGroup;
 			children = (
 				A9E82C542992EE2D00617DCF /* CustomTechnologyPicker */,
+				A9F41A9D29944619006882B8 /* SearchBarView.swift */,
+				A924385B2991A3EF0087B108 /* SearchUserView.swift */,
 				A95746042990396D000F4292 /* LoadingView.swift */,
 				A924384A2990FF160087B108 /* UsefulProfileViewContent.swift */,
-				A924385729916A210087B108 /* PostFeedView.swift */,
-				A9243859299174360087B108 /* PostCardView.swift */,
 			);
 			name = UsefulComponentViews;
 			path = ShareTech/UsefulComponentViews;
 			sourceTree = "<group>";
 		};
-		A957460B299065F3000F4292 /* UtilityComponents */ = {
+		A957460B299065F3000F4292 /* UtilityClasses */ = {
 			isa = PBXGroup;
 			children = (
+				A9FA305A29931BE6009C3B8F /* PhotosUIPicker.swift */,
 				A9E5E548298EFCF00065F434 /* ImagePicker.swift */,
 			);
-			name = UtilityComponents;
-			path = ShareTech/UtilityComponents;
+			name = UtilityClasses;
+			path = ShareTech/UtilityClasses;
 			sourceTree = "<group>";
 		};
 		A957460C29906620000F4292 /* MainView */ = {
@@ -130,12 +131,44 @@
 			children = (
 				A957460D29906BE6000F4292 /* MainView.swift */,
 				A92438472990E68E0087B108 /* ProfileView.swift */,
-				A924384F29913BF40087B108 /* CreateNewPost.swift */,
 				A9243855299160E60087B108 /* PostsView.swift */,
-				A924385B2991A3EF0087B108 /* SearchUserView.swift */,
-				A9F41A9D29944619006882B8 /* SearchBarView.swift */,
 			);
 			path = MainView;
+			sourceTree = "<group>";
+		};
+		A9E53D712996C253005C1DAE /* VM_For_PostFeed */ = {
+			isa = PBXGroup;
+			children = (
+				A9FA30682993EF40009C3B8F /* PersonalFeedViewModel.swift */,
+				A9FA30612993C13E009C3B8F /* PostFeedViewModel.swift */,
+			);
+			path = VM_For_PostFeed;
+			sourceTree = "<group>";
+		};
+		A9E53D722996C2A2005C1DAE /* PersonalFeedSetUp */ = {
+			isa = PBXGroup;
+			children = (
+				A9726A4329952DC900A26ABC /* PersonalCardView.swift */,
+				A9FA30652993EB95009C3B8F /* PersonalFeed.swift */,
+			);
+			path = PersonalFeedSetUp;
+			sourceTree = "<group>";
+		};
+		A9E53D732996C315005C1DAE /* PostFeedSetup */ = {
+			isa = PBXGroup;
+			children = (
+				A9243859299174360087B108 /* PostCardView.swift */,
+				A924385729916A210087B108 /* PostFeedView.swift */,
+			);
+			path = PostFeedSetup;
+			sourceTree = "<group>";
+		};
+		A9E53D742996C35C005C1DAE /* CreateNewPostSetUp */ = {
+			isa = PBXGroup;
+			children = (
+				A924384F29913BF40087B108 /* CreateNewPost.swift */,
+			);
+			path = CreateNewPostSetUp;
 			sourceTree = "<group>";
 		};
 		A9E5E522298EDE5E0065F434 = {
@@ -159,7 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				A9FA30602993C123009C3B8F /* ViewModel */,
-				A957460B299065F3000F4292 /* UtilityComponents */,
+				A957460B299065F3000F4292 /* UtilityClasses */,
 				A957460A29906589000F4292 /* UsefulComponentViews */,
 				A9E5E545298EE4FF0065F434 /* Extension */,
 				A9E5E542298EE0CA0065F434 /* Model */,
@@ -169,7 +202,6 @@
 				A910FED22991D2BE008BF0BE /* GoogleService-Info.plist */,
 				A910FECE2991D0AF008BF0BE /* Assets.xcassets */,
 				A9E5E534298EDE600065F434 /* Preview Content */,
-				A9FA305A29931BE6009C3B8F /* PhotosUIPicker.swift */,
 			);
 			name = ShareTech;
 			sourceTree = "<group>";
@@ -186,6 +218,9 @@
 		A9E5E541298EE0C40065F434 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A9E53D742996C35C005C1DAE /* CreateNewPostSetUp */,
+				A9E53D732996C315005C1DAE /* PostFeedSetup */,
+				A9E53D722996C2A2005C1DAE /* PersonalFeedSetUp */,
 				A957460C29906620000F4292 /* MainView */,
 				A957460929906565000F4292 /* Login */,
 			);
@@ -226,8 +261,6 @@
 				A9E82C522992EDF700617DCF /* TechnologyLogo.swift */,
 				A9E82C552992EEDE00617DCF /* TechnologyPicker.swift */,
 				A9E82C572993001C00617DCF /* TechnologyPickerViewModel.swift */,
-				A9FA30652993EB95009C3B8F /* PersonalFeed.swift */,
-				A9726A4329952DC900A26ABC /* PersonalCardView.swift */,
 			);
 			path = CustomTechnologyPicker;
 			sourceTree = "<group>";
@@ -235,8 +268,7 @@
 		A9FA30602993C123009C3B8F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				A9FA30612993C13E009C3B8F /* PostFeedViewModel.swift */,
-				A9FA30682993EF40009C3B8F /* PersonalFeedViewModel.swift */,
+				A9E53D712996C253005C1DAE /* VM_For_PostFeed */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
