@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseFirestoreSwift
 
 struct ProfileView: View {
     
@@ -82,7 +83,7 @@ struct ProfileView: View {
     
     func fetchUserData() async{
         guard let userID = Auth.auth().currentUser?.uid else { return }
-        guard let user  = try? await Firestore.firestore().collection("Users").document(userID).getDocument(as: User.self) else { return }
+        guard let user  = try? await Firestore.firestore().collection("Users").document(userID).getDocument().data(as: User.self) else { return }
         await MainActor.run(body: {
             myProfile = user
         })

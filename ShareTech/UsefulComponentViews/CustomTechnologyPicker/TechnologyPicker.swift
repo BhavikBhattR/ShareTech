@@ -167,10 +167,9 @@ struct TechnologyPicker: View {
                
                 vmOfPostFeed.recentPosts = []
                 vmOfPostFeed.isFetching = true
-                vmOfPostFeed.paginationDocument = nil
                 vmOfPersonalFeed.recentPostsOfOwn = []
                 vmOfPersonalFeed.isFetching = true
-                vmOfPersonalFeed.paginationDocumentForPersonalFeed = nil
+                vmOfPostFeed.listener?.remove()
                 await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: false, uid: userID)
                 await vmOfPersonalFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: true, uid: userID)
             }

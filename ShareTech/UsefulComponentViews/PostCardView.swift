@@ -19,10 +19,14 @@ struct PostCardView: View {
     @State private var docListener: ListenerRegistration?
     @State private var offset = CGSize.zero
     @State private var color: Color = .white
+    @EnvironmentObject var vmOfPostFeedView: PostFeedViewModel
+    
 
     
     var onUpdate: (Post) -> ()
     var onDelete: () -> ()
+    
+    
     
     var body: some View {
         GeometryReader{ proxy in
@@ -148,11 +152,15 @@ struct PostCardView: View {
                         .rotationEffect(Angle(degrees: getRotationAmount(proxy: proxy)))
                         .onTapGesture {
                             
-                        }
+                        }.onLongPressGesture(perform: {
+                            
+                        })
                         .gesture(
                             DragGesture()
                                 .onChanged({ value in
-                                    offset = value.translation
+                                    withAnimation{
+                                        offset = value.translation
+                                    }
                                     
                                 })
                                 .onEnded({ _ in
@@ -258,10 +266,25 @@ struct PostCardView: View {
     func swipeCard(width: CGFloat){
         switch width{
         case -500...(-150):
-            offset = CGSize(width: -520, height: 0)
-
+            offset = CGSize(width: -720, height: 0)
+            dislikedPost()
+            vmOfPostFeedView.recentPosts.removeAll { post in
+                post.id == self.post.id
+            }
+            vmOfPostFeedView.showSwipeEffect.toggle()
+            vmOfPostFeedView.color = .red
+            vmOfPostFeedView.messageOnSwipe = "You found this Not so Useful 🧐"
+         
         case 150...500:
-            offset = CGSize(width: 520, height: 0)
+            offset = CGSize(width: 720, height: 0)
+            likedPost()
+            vmOfPostFeedView.recentPosts.removeAll { post in
+                post.id == self.post.id
+            }
+            vmOfPostFeedView.showSwipeEffect.toggle()
+            vmOfPostFeedView.color = .green
+            vmOfPostFeedView.messageOnSwipe = "You Found this useful 🤟"
+           
 
         default:
             offset = .zero
@@ -290,19 +313,21 @@ struct PostCardView: View {
     func postInteraction() -> some View{
         HStack(spacing: 6){
             
-            Button(action: likedPost){
-                Image(systemName: (post.likeIDs.contains(userID)) ? "hand.thumbsup.fill" : "hand.thumbsup")
-            }
+//            Button(action: likedPost){
+                Image(systemName: (post.likeIDs.contains(userID)) ? "heart.fill" : "heart")
+                .font(.system(size: 24))
+//            }
             
             Text("\(post.likeIDs.count)")
                 .font(.caption)
                 .foregroundColor(.gray)
             
-            Button(action: dislikedPost){
-                Image(systemName: (post.dislikedIDs.contains(userID)) ? "hand.thumbsdown.fill" : "hand.thumbsdown")
-                    
-            }
-            .padding(.leading, 25)
+//            Button(action: dislikedPost){
+                Image(systemName: (post.dislikedIDs.contains(userID)) ? "heart.slash.fill" : "heart.slash")
+                .font(.system(size: 24))
+                .padding(.leading, 25)
+//            }
+           
             
             Text("\(post.dislikedIDs.count)")
                 .font(.caption)
@@ -316,11 +341,7 @@ struct PostCardView: View {
         Task{
             guard let postID = post.id else { return }
             if post.likeIDs.contains(userID){
-                Firestore.firestore().collection("Posts")
-                    .document(postID)
-                    .updateData([
-                        "likeIDs": FieldValue.arrayRemove([userID])
-                    ])
+
             }else{
                 Firestore.firestore().collection("Posts")
                     .document(postID)
@@ -331,15 +352,12 @@ struct PostCardView: View {
             }
         }
     }
+    
     func dislikedPost(){
         Task{
             guard let postID = post.id else { return }
             if post.dislikedIDs.contains(userID){
-                Firestore.firestore().collection("Posts")
-                    .document(postID)
-                    .updateData([
-                        "dislikedIDs": FieldValue.arrayRemove([userID])
-                    ])
+               
             }else{
                 Firestore.firestore().collection("Posts")
                     .document(postID)
@@ -350,6 +368,45 @@ struct PostCardView: View {
             }
         }
     }
+    
+//    func likedPost(){
+//        Task{
+//            guard let postID = post.id else { return }
+//            if post.likeIDs.contains(userID){
+//                Firestore.firestore().collection("Posts")
+//                    .document(postID)
+//                    .updateData([
+//                        "likeIDs": FieldValue.arrayRemove([userID])
+//                    ])
+//            }else{
+//                Firestore.firestore().collection("Posts")
+//                    .document(postID)
+//                    .updateData([
+//                        "likeIDs": FieldValue.arrayUnion([userID]),
+//                        "dislikedIDs" : FieldValue.arrayRemove([userID])
+//                    ])
+//            }
+//        }
+//    }
+//    func dislikedPost(){
+//        Task{
+//            guard let postID = post.id else { return }
+//            if post.dislikedIDs.contains(userID){
+//                Firestore.firestore().collection("Posts")
+//                    .document(postID)
+//                    .updateData([
+//                        "dislikedIDs": FieldValue.arrayRemove([userID])
+//                    ])
+//            }else{
+//                Firestore.firestore().collection("Posts")
+//                    .document(postID)
+//                    .updateData([
+//                        "dislikedIDs": FieldValue.arrayUnion([userID]),
+//                        "likeIDs" : FieldValue.arrayRemove([userID])
+//                    ])
+//            }
+//        }
+//    }
     
     func deletedPost(){
         Task{

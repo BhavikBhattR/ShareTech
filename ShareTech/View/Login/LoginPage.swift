@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 
 struct LoginPage: View {
@@ -116,13 +118,15 @@ struct LoginPage: View {
     func fetchUser()async throws{
         guard let userId = Auth.auth().currentUser?.uid else { return }
         let user = try await Firestore.firestore().collection("Users").document(userId)
-            .getDocument(as: User.self)
+            .getDocument().data(as: User.self)
         
         await MainActor.run(body: {
             userID = userId
-            userNamedStored = user.Username
-            profileURL = user.profilePicURL
-            logStatus = true
+            if let user = user{
+                userNamedStored = user.Username
+                profileURL = user.profilePicURL
+                logStatus = true
+            }
         })
     }
     

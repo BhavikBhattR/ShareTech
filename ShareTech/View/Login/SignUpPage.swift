@@ -176,7 +176,7 @@ struct SignUpPage: View {
                 guard let userID = Firebase.Auth.auth().currentUser?.uid else { return }
                 guard let imgData = profilePic?.jpegData(compressionQuality: 0.5) else { return }
                 let storageRef = Storage.storage().reference().child("Profile_Images").child(userID)
-                let _ = try await storageRef.putDataAsync(imgData)
+                let _ = storageRef.putData(imgData)
                 
                 //downloading image URL
                 let profileImageURL = try await storageRef.downloadURL()

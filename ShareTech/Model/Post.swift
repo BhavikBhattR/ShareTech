@@ -29,6 +29,20 @@ struct Post: Codable, Identifiable, Equatable, Hashable{
     var relatedTechnologies: [String] = []
     var postTopic: String = ""
     
+//    init(postData: [String: Any]){
+//        self.text = postData["text"] as! String
+//        self.imageURL = postData["imageURL"] as! [URL]
+//        self.imageReferenceID = postData["imageReferenceID"] as! [String]
+//        self.publishedDate = postData["publishedDate"] as! Date
+//        self.likeIDs = postData["likeIDs"] as! [String]
+//        self.dislikedIDs = postData["dislikedIDs"] as! [String]
+//        self.userName = postData["userName"] as! String
+//        self.userUID = postData["userUID"] as! String
+//        self.userProfileURL = postData["userProfileURL"] as! URL
+//        self.relatedTechnologies = postData["relatedTechnologies"] as! [String]
+//        self.postTopic = postData["postTopic"] as! String
+//    }
+    
     enum CodingKeys: CodingKey{
         case id
         case text

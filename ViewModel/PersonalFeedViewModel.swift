@@ -25,36 +25,16 @@ class PersonalFeedModel: ObservableObject{
         do {
             var query: Query!
             
-            
-            if let paginatedDocument = paginationDocumentForPersonalFeed{
                 if selectedTechnologies.count > 0{
                     query = Firestore.firestore().collection("Posts")
                         .whereField("relatedTechnologies", arrayContainsAny: selectedTechnologies)
                         .whereField("userUID", isEqualTo: uid)
                         .order(by: "publishedDate", descending: true)
-                        .start(afterDocument: paginatedDocument)
-                        .limit(to: 20)
                 }else{
                     query = Firestore.firestore().collection("Posts")
                         .whereField("userUID", isEqualTo: uid)
                         .order(by: "publishedDate", descending: true)
-                        .start(afterDocument: paginatedDocument)
-                        .limit(to: 20)
                 }
-            }else{
-                if selectedTechnologies.count > 0{
-                    query = Firestore.firestore().collection("Posts")
-                        .whereField("relatedTechnologies", arrayContainsAny: selectedTechnologies)
-                        .whereField("userUID", isEqualTo: uid)
-                        .order(by: "publishedDate", descending: true)
-                        .limit(to: 20)
-                }else{
-                    query = Firestore.firestore().collection("Posts")
-                        .whereField("userUID", isEqualTo: uid)
-                        .order(by: "publishedDate", descending: true)
-                        .limit(to: 20)
-                }
-            }
             
             
             

@@ -181,7 +181,7 @@ struct CreateNewPost: View {
                         let imageReferenceID = "\(userID)\(Date())\(index)"
                         let storageRef = Storage.storage().reference().child("Post_images").child(imageReferenceID)
                         if let imageData = self.photosUIPicker.images[index].jpegData(compressionQuality: 0.5){
-                            let _ = try await storageRef.putDataAsync(imageData)
+                            let _ = storageRef.putData(imageData)
                             let uploadedImageURL = try await storageRef.downloadURL()
                             imageURLs.append(uploadedImageURL)
                             imageReferenceIds.append(imageReferenceID)

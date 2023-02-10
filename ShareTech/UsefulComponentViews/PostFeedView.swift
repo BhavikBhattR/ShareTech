@@ -20,6 +20,7 @@ struct PostFeedView: View {
     //    @State private var paginationDocument: QueryDocumentSnapshot?
     @EnvironmentObject var vmOfPostFeed: PostFeedViewModel
     @EnvironmentObject var vm: TechnologyPickerViewModel
+    
    
     
     @AppStorage("user_uid") var userID: String = ""
@@ -34,13 +35,23 @@ struct PostFeedView: View {
                     .vAligned(alignment: .center)
             }else{
                 if vmOfPostFeed.recentPosts.isEmpty{
-                    // no posts found on firestore
-//                    Text("No posts found")
-//                        .font(.caption)
-//                        .foregroundColor(.gray)
-//                        .padding(.top, 30)
+                    HStack(alignment: .center){
+                        Text("You have seen all the recent posts, click on this refresh buttton")
+                            .multilineTextAlignment(.center)
+                            .font(.caption2)
+                            .foregroundColor(.black)
+                        Button {
+                                Task(priority: .background, operation: {
+                                   let _ = await vmOfPostFeed.fetchPosts(selectedTechnologies:vm.selectedTechnologies, basedOnUID: false, uid: userID)
+                                })
+                            }
+                         label: {
+                            Image(systemName: "goforward")
+                        }
+                        .rotationEffect(Angle(degrees: vmOfPostFeed.isFetching ? 360: 0), anchor: .center)
+                    }
                 }else{
-                    ForEach(vmOfPostFeed.recentPosts.reversed()){post in
+                    ForEach(vmOfPostFeed.recentPosts){post in
                         PostCardView(post: post) { updatedPost in
                             if let index = vmOfPostFeed.recentPosts.firstIndex(where: { post in
                                 post.id == updatedPost.id
@@ -55,11 +66,9 @@ struct PostFeedView: View {
                         }
                         /* below mentioned on appear is code responsible for pagination*/
                         .onAppear{
-                            if post.id == vmOfPostFeed.recentPosts.last?.id && vmOfPostFeed.paginationDocument != nil{
                                 Task{
                                     await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
                                 }
-                            }
                         }
                         
                         /* padding given on horizontal is -15 coz on LazyVstack, we have given padding of 15*/
@@ -80,10 +89,32 @@ struct PostFeedView: View {
             //
             //        }
         }
+        .refreshable {
+            vmOfPostFeed.isFetching = true
+            guard vmOfPostFeed.recentPosts.isEmpty else { return }
+            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+        }
         .task {
             guard vmOfPostFeed.recentPosts.isEmpty else { return }
             await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
             
+        }
+        .overlay {
+            if vmOfPostFeed.showSwipeEffect{
+                ZStack{
+                    Color.white.opacity(0.8)
+                    
+                    HStack(spacing: 4){
+                        Text(vmOfPostFeed.messageOnSwipe)
+                            .font(.subheadline)
+                            .foregroundColor(vmOfPostFeed.color)
+                    }
+                }.onAppear{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                        vmOfPostFeed.showSwipeEffect.toggle()
+                    }
+                }
+            }
         }
        
 }
