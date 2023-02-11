@@ -40,6 +40,7 @@ struct SearchBarView: View {
                 .autocorrectionDisabled()
                 .keyboardType(.default)
                 .focused($isKeyBoardFocused)
+                .hAligned(alignment: .leading)
                 .overlay(
                 Image(systemName: "xmark.circle.fill")
                     .padding()

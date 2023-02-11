@@ -23,7 +23,13 @@ struct MainView: View {
                     }
                 }
               
-    
+            MainMessagesview()
+                .tabItem {
+                    VStack{
+                        Image(systemName: "message")
+                        Text("Chat")
+                    }
+                }
             
             ProfileView()
                 .tabItem {
@@ -37,8 +43,9 @@ struct MainView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
-}
+//struct MainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainView()
+//            .environmentObject(PostFeedViewModel())
+//    }
+//}

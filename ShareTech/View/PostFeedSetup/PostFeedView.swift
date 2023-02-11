@@ -65,11 +65,11 @@ struct PostFeedView: View {
                             }
                         }
                         /* below mentioned on appear is code responsible for pagination*/
-                        .onAppear{
-                                Task{
-                                    await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
-                                }
-                        }
+//                        .onAppear{
+//                                Task{
+//                                    await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+//                                }
+//                        }
                         
                         /* padding given on horizontal is -15 coz on LazyVstack, we have given padding of 15*/
                         Divider()
@@ -89,16 +89,16 @@ struct PostFeedView: View {
             //
             //        }
         }
-        .refreshable {
-            vmOfPostFeed.isFetching = true
-            guard vmOfPostFeed.recentPosts.isEmpty else { return }
-            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
-        }
-        .task {
-            guard vmOfPostFeed.recentPosts.isEmpty else { return }
-            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
-            
-        }
+//        .refreshable {
+//            vmOfPostFeed.isFetching = true
+//            guard vmOfPostFeed.recentPosts.isEmpty else { return }
+//            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+//        }
+//        .task {
+//            guard vmOfPostFeed.recentPosts.isEmpty else { return }
+//            await vmOfPostFeed.fetchPosts(selectedTechnologies: vm.selectedTechnologies, basedOnUID: vmOfPostFeed.basedOnUID, uid: userID)
+//
+//        }
         .overlay {
             if vmOfPostFeed.showSwipeEffect{
                 ZStack{

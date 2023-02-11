@@ -20,6 +20,8 @@ struct PersonalFeed: View {
             LazyVStack(alignment: .leading){
                 if vmOfPersonalFeed.isFetching{
                     ProgressView()
+                        .hAligned(alignment: .center)
+                        .vAligned(alignment: .center)
                         .padding(.top, 30)
                 }else{
                     if vmOfPersonalFeed.recentPostsOfOwn.isEmpty{
