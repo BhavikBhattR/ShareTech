@@ -3,3 +3,5 @@ project responsible for creating ios app that will allow people to learn about s
 
 
 ![InitialScreen](https://user-images.githubusercontent.com/68719677/218311523-3db2245d-f9b1-45e3-a325-4c5730763ee4.gif)
+
+![RightSwipe](https://user-images.githubusercontent.com/68719677/218311755-46520dbb-bf59-49e3-b56d-5ccf7f56f406.gif)
